@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 export interface User {
   name: string;
@@ -13,8 +13,12 @@ export interface User {
 })
 export class SearchComponent implements OnInit {
   myControl = new FormControl();
-  options: User[] = [{name: 'Lobi'},{name: 'Mary'}, {name: 'Shelley'}, {name: 'Igor'},{name: 'Canela'}];
+  options: User[] = [{ name: 'Lobi' }, { name: 'Mary' }, { name: 'Shelley' }, { name: 'Igor' }, { name: 'Canela' }];
   filteredOptions!: Observable<User[]>;
+  image: string = "https://incyt.url.edu.gt/incyt/api/HashFiles/uploads/lobi.JPG";
+  character: string = "";
+  constructor(
+  ) { }
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -34,19 +38,20 @@ export class SearchComponent implements OnInit {
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
-  clicked(e:any){
+  clicked(e: any) {
     console.log(e);
   }
 
-  onEnter(evt: any){
+  onEnter(evt: any) {
     //console.log(evt);
-    if (evt.keyCode === 13 )
-      console.log('enter presseed',evt);
-    else if (evt.source.selected)
-      console.log('selected',evt);
-    /*if (evt.source.selected) {
-    alert("hello ");
-    }*/
+    if (evt.keyCode === 13) {
+      console.log('enter presseed', evt);
+      console.log(this.character);
+    }
+
+    else if (evt.source.selected) {
+      console.log('selected by click', evt);
+    }
   }
 
 }

@@ -1,9 +1,17 @@
 .example-form {
     min-width: 150px;
-    max-width: 500px;
+    max-width: 100%;
     width: 100%;
   }
   
   .example-full-width {
     width: 100%;
   }
+
+  .image-circle{
+    width:auto;
+    height:auto; 
+    margin: 10px; 
+    border-radius: 50%;  
+}
+  

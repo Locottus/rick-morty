@@ -3,16 +3,23 @@
 <form class="example-form">
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Type your show character</mat-label>
-    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" (keyup.enter)="onEnter($event)">
+    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" (keyup.enter)="onEnter($event)"
+      [(ngModel)]="character">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="clicked(option)"
-        (onSelectionChange)="onEnter($event)">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="clicked(option)">
         {{option.name}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
 </form>
 
-<div>
 
+<div class="image-container" *ngIf="image">
+  <img class="image-circle" [src]="image" alt="Image to be displayed">
 </div>
+
+<!--
+<footer>
+  <p>2022 code challenge Herlich Gonzalez</p>
+</footer>
+-->
