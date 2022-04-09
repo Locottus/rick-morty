@@ -12,8 +12,8 @@ export class MainServiceService {
     private http : HttpClient
   ) { }
 
-  getData() {
-    return this.http.get('https://jsonplaceholder.typicode.com/users');
-  }
+  /*getData() {
+    return this.http.get('https://rickandmortyapi.com/api/character');
+  }*/
   
 }
