@@ -9,6 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SearchComponent } from './components/search/search.component';
+import { GraphQLModule } from './graphql.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {MatListModule} from '@angular/material/list';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +28,10 @@ import { SearchComponent } from './components/search/search.component';
     MatInputModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    GraphQLModule,
+    NgbModule,
+    FontAwesomeModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
