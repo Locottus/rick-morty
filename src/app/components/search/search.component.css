@@ -5,13 +5,37 @@
 }
 
 .example-full-width {
-  width: 100%;
+  width: 50%;
 }
 
-  .image-circle{
-    width:auto;
-    height:auto; 
-    margin: 10px; 
-    border-radius: 50%;  
+.image-circle {
+  width: auto;
+  height: auto;
+  margin: 10px;
+  border-radius: 100%;
 }
-  
+
+.page-section {
+  margin: auto;
+  border: 1px solid #4CAF50;
+}
+
+.vertical-scroll{
+  width: auto;
+  height: 400px; 
+  overflow-y: scroll;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

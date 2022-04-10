@@ -1,41 +1,45 @@
-<section id="input-section">
-  <!--
-  <p><input type="text" id="search-input" name="search-input" [(ngModel)]="characterSelected"
-      (keypress)="onEnter($event)"></p>
--->
-  <div>
-    <h2>Rick and Morty Search Image Engine</h2>
-    <form class="example-form">
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label id="label-input">Character</mat-label>
-        <input id="text-input" type="text" matInput [formControl]="myControl" (keypress)="onEnter($event)"
-          [value]="characterSelected" [(ngModel)]="characterSelected">
-      </mat-form-field>
-    </form>
+<h2>Rick and Morty Search Image Engine</h2>
+<div class="row">
+  <div class="column">
+    <section id="input-section">
+      <div>
+        <form class="example-form">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label id="label-input">Summon your character</mat-label>
+            <input id="text-input" type="text" matInput [formControl]="myControl" (keypress)="onEnter($event)"
+              [value]="characterSelected" [(ngModel)]="characterSelected" autocomplete="off">
+          </mat-form-field>
+        </form>
+      </div>
+    </section>
+
+    <section id="list-section">
+      <div class="vertical-scroll">
+        <mat-selection-list #characterList [multiple]="false">
+          <mat-list-option *ngFor="let character of characters$ | async" [value]="character.name"
+            (click)="optionSelected(character)" onchange="optionSelected(character)">
+            {{character.name}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </section>
+
   </div>
-<!--  <h3> {{characterSelected}}</h3>-->
-</section>
-
-<section id="list-section">
-
-
-  <mat-selection-list #characterList [multiple]="false">
-    <mat-list-option *ngFor="let character of characters$ | async" [value]="character.name"
-      (click)="optionSelected(character)">
-      {{character.name}}
-    </mat-list-option>
-  </mat-selection-list>
-</section>
-
-<section id="image-section">
-  <div class="image-container" *ngIf="image">
-    <img class="image-circle" [src]="image" alt="Image to be displayed">
+  <div class="column">
+    <section id="image-section">
+      <div class="image-container" *ngIf="image">
+        <img class="image-circle" [src]="image" alt="Image to be displayed">
+      </div>
+    </section>
   </div>
-</section>
+</div>
 
-<p>
-  {{charactersInfo$ |async|json}}<br />
-</p>
+<div class="page-section" *ngIf="totalPages > 1">
+  <button mat-button color="primary" (click)="previousPage()">&lt;&lt;Previos</button>
+  &nbsp;&nbsp;page&nbsp;{{currentPage}}&nbsp;of&nbsp;{{totalPages}}&nbsp;
+  <button mat-button color="primary" (click)="nextPage()">next&gt;&gt;</button>
+</div>
+
 <!--
 <footer>
   <p>2022 code challenge Herlich Gonzalez</p>

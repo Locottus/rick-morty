@@ -19,30 +19,56 @@ export class SearchComponent implements OnInit {
   characters$ = this.mainService.characters$;
   charactersInfo$ = this.mainService.charactersInfo$;
 
+  currentPage: number = 1;
+  totalPages: number = 1;
+  totalCount: number = 0;
+  fixSize: number = 20;
+
+
   constructor(
     private mainService: MainServiceService,
   ) { }
 
   ngOnInit() {
-
   }
 
 
   onEnter(event: any) {
-    console.log(this.characterSelected)
     if (event.keyCode === 13) {
-      console.log('enter presseed', event);
-      console.log(event.target.value);
-      this.mainService.getNames(event.target.value, 1);
+      this.mainService.getNames(event.target.value, this.currentPage);
+      //this.characterSelected = "";
+      this.calculatePate();
     }
     else {
       console.log('selected by click', event);
     }
   }
 
+  calculatePate() {
+    this.charactersInfo$.subscribe(val => {
+      this.totalCount = val[0].count;
+      this.totalPages = Math.floor(this.totalCount / this.fixSize) + 1;
+      //console.log(this.totalCount, this.totalPages);
+    });
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.mainService.getNames(this.characterSelected, this.currentPage);
+
+    }
+  }
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.mainService.getNames(this.characterSelected, this.currentPage);
+    }
+  }
+
   optionSelected(event: Character) {
-    console.log(this.characterSelected);
-    console.log(event);
+    //console.log(this.characterSelected);
+    //console.log(event);
     this.image = event.image;
   }
 

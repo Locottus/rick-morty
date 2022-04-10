@@ -13,6 +13,7 @@ import { GraphQLModule } from './graphql.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatListModule} from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +33,7 @@ import {MatListModule} from '@angular/material/list';
     NgbModule,
     FontAwesomeModule,
     MatListModule,
+    MatGridListModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
