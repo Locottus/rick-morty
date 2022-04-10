@@ -2,7 +2,6 @@
   <!--
   <p><input type="text" id="search-input" name="search-input" [(ngModel)]="characterSelected"
       (keypress)="onEnter($event)"></p>
-  
 -->
   <div>
     <h2>Rick and Morty Search Image Engine</h2>
@@ -14,39 +13,29 @@
       </mat-form-field>
     </form>
   </div>
-  <h3> {{characterSelected}}</h3>
+<!--  <h3> {{characterSelected}}</h3>-->
 </section>
 
 <section id="list-section">
-  <mat-selection-list #shoes [multiple]="false">
-    <mat-list-option *ngFor="let shoe of typesOfShoes" [value]="shoe" (click)="optionSelected(shoe)">
-      {{shoe}}
+
+
+  <mat-selection-list #characterList [multiple]="false">
+    <mat-list-option *ngFor="let character of characters$ | async" [value]="character.name"
+      (click)="optionSelected(character)">
+      {{character.name}}
     </mat-list-option>
   </mat-selection-list>
-
-
 </section>
-<!--
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Type your show character</mat-label>
-    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" (keyup.enter)="onEnter($event)"
-      [(ngModel)]="characterSelected">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="clicked(option)">
-        {{option.name}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
--->
+
 <section id="image-section">
   <div class="image-container" *ngIf="image">
     <img class="image-circle" [src]="image" alt="Image to be displayed">
   </div>
-
 </section>
 
+<p>
+  {{charactersInfo$ |async|json}}<br />
+</p>
 <!--
 <footer>
   <p>2022 code challenge Herlich Gonzalez</p>

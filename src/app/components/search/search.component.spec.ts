@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatAutocomplete } from '@angular/material/autocomplete';
-
+import { MainServiceService } from 'src/app/services/main-service.service';
 import { SearchComponent } from './search.component';
+import { Apollo, gql } from 'apollo-angular';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -11,7 +11,9 @@ describe('SearchComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ SearchComponent ],
       providers: [
-        MatAutocomplete
+        MainServiceService,
+        Apollo,
+        
       ]
     })
     .compileComponents();
