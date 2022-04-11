@@ -5,25 +5,25 @@ export default class Character {
     /**
      * character id
      */
-    public id: number = 0; 
+    public id: number = 0;
     /**
      * User name 
      */
-    public name: string = "";
+    public name: string = "Portal";
     /**
      * image
      */
-    public image: string = "";
+    public image: string = "assets/images/rick-morty-portal.png";
     /**
      * status
      */
-    public status: string = "";
+    public status: string = "N/A";
     /**
      * gender
      */
-    public gender: string = "";
+    public gender: string = "N/A";
     /**
      * species
      */
-    public species:string = "";
+    public species: string = "N/A";
 }

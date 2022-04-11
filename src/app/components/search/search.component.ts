@@ -45,6 +45,7 @@ export class SearchComponent implements OnInit {
     if (event.keyCode === 13 || event.key === 'Backspace') {
       this.mainService.getNames(event.target.value, this.currentPage);
       this.calculatePage();
+      this.optionSelected(this.mainService.findCharacter(this.characterSelected));
     }
     else {
       this.mainService.getNames(event.target.value, 1);
@@ -55,10 +56,10 @@ export class SearchComponent implements OnInit {
    * calculates the pages to be displayed
    */
   calculatePage() {
-    this.charactersInfo$.subscribe(val => {
-      this.totalCount = val[0].count;
+    setTimeout(() => {
+      this.totalCount = this.mainService.getTotalCharacters();
       this.totalPages = Math.floor(this.totalCount / this.fixSize) + 1;
-    });
+    }, 200);
   }
 
   /**
@@ -68,7 +69,6 @@ export class SearchComponent implements OnInit {
     if (this.currentPage > 1) {
       this.currentPage--;
       this.mainService.getNames(this.characterSelected, this.currentPage);
-
     }
   }
 
