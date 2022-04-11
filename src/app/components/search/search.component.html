@@ -1,7 +1,9 @@
-<h2>Rick and Morty Search Image Engine</h2>
-<hr/>
+<div class="center-title">
+  <h2>Rick and Morty Search Engine</h2>
+</div>
+
 <div class="row">
-  <div class="column">
+  <div class="col">
     <section id="input-section">
       <div>
         <form class="example-form">
@@ -24,35 +26,28 @@
         </mat-selection-list>
       </div>
     </section>
-
+    <div class="center-title">
+      <button type="button" class="btn btn-warning" color="primary" (click)="previousPage()">&lt;&lt;</button>
+      <b>&nbsp;&nbsp;{{currentPage}}&nbsp;of&nbsp;{{totalPages}}&nbsp;</b>
+      <button type="button" class="btn btn-warning" (click)="nextPage()">&gt;&gt;</button>
+    </div>
   </div>
-  <div class="column">
+
+  <div class="col center-title">
     <section id="image-section">
       <div class="image-container" *ngIf="image">
         <img class="image-circle" [src]="image" alt="Image to be displayed">
       </div>
       <div>
         <h2>{{characterInfo.name}}</h2>
-        <hr/>
+        <hr />
         <p>
-          <b>Identification</b> : {{characterInfo.id}}<br/>
-          <b>Gender</b> : {{characterInfo.gender}}<br/>
-          <b>Specie</b> : {{characterInfo.species}}<br/>
-          <b>Status</b> : {{characterInfo.status}}<br/>
+          <b>Identification</b> : {{characterInfo.id}}<br />
+          <b>Gender</b> : {{characterInfo.gender}}<br />
+          <b>Specie</b> : {{characterInfo.species}}<br />
+          <b>Status</b> : {{characterInfo.status}}<br />
         </p>
       </div>
     </section>
   </div>
 </div>
-
-<div class="page-section" >
-  <button mat-button color="primary" (click)="previousPage()">&lt;&lt;Previos</button>
-  &nbsp;&nbsp;page&nbsp;{{currentPage}}&nbsp;of&nbsp;{{totalPages}}&nbsp;
-  <button mat-button color="primary" (click)="nextPage()">next&gt;&gt;</button>
-</div>
-
-<!--
-<footer>
-  <p>2022 code challenge Herlich Gonzalez</p>
-</footer>
--->
