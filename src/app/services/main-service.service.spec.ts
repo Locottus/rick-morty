@@ -1,6 +1,6 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-
+import { Apollo, gql } from 'apollo-angular';
 import { MainServiceService } from './main-service.service';
 
 describe('MainServiceService', () => {
@@ -11,7 +11,7 @@ describe('MainServiceService', () => {
       providers: [
         HttpClient,
         HttpHandler,
-
+        Apollo,
       ]
     });
     service = TestBed.inject(MainServiceService);

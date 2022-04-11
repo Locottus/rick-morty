@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith, debounceTime } from 'rxjs/operators';
 import Character from 'src/app/models/Character';
 import { MainServiceService } from '../../services/main-service.service'
 
@@ -39,25 +37,33 @@ export class SearchComponent implements OnInit {
     this.characterInfo.status = 'N/A';
   }
 
-
+  /**
+   * when enter is pressed, the selected name will be processed
+   * @param event keyboard event
+   */
   onEnter(event: any) {
     if (event.keyCode === 13 || event.key === 'Backspace') {
       this.mainService.getNames(event.target.value, this.currentPage);
-      this.calculatePate();
+      this.calculatePage();
     }
     else {
-      console.log('selected by click', event);
       this.mainService.getNames(event.target.value, 1);
     }
   }
 
-  calculatePate() {
+  /**
+   * calculates the pages to be displayed
+   */
+  calculatePage() {
     this.charactersInfo$.subscribe(val => {
       this.totalCount = val[0].count;
       this.totalPages = Math.floor(this.totalCount / this.fixSize) + 1;
     });
   }
 
+  /**
+   * moves a page before
+   */
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -66,6 +72,9 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  /**
+   * moves to next page
+   */
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -73,6 +82,10 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  /**
+   * loads the data of the selected character
+   * @param event keyboard event
+   */
   optionSelected(event: Character) {
     this.characterInfo.id = event.id;
     this.characterInfo.name = event.name;

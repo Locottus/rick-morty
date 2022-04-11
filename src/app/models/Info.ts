@@ -1,3 +1,6 @@
+/**
+ * Info model
+ */
 export default class Info {
     /**
      * character count for pagination

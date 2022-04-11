@@ -1,3 +1,6 @@
+/**
+ * Character model
+ */
 export default class Character {
     /**
      * character id
