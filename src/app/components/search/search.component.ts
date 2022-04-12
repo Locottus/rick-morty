@@ -20,7 +20,7 @@ export class SearchComponent implements OnInit {
 
   currentPage: number = 1;
   totalPages: number = 1;
-  totalCount: number = 0;
+  totalCount: number = 20;
   fixSize: number = 20;
 
 
@@ -35,6 +35,8 @@ export class SearchComponent implements OnInit {
     this.characterInfo.image = this.image;
     this.characterInfo.species = 'N/A';
     this.characterInfo.status = 'N/A';
+
+    this.mainService.getNames(this.characterSelected, this.currentPage);
   }
 
   /**
@@ -44,8 +46,8 @@ export class SearchComponent implements OnInit {
   onEnter(event: any) {
     if (event.keyCode === 13 || event.key === 'Backspace') {
       this.mainService.getNames(event.target.value, this.currentPage);
-      this.calculatePage();
       this.optionSelected(this.mainService.findCharacter(this.characterSelected));
+      this.calculatePage();
     }
     else {
       this.mainService.getNames(event.target.value, 1);
@@ -56,10 +58,21 @@ export class SearchComponent implements OnInit {
    * calculates the pages to be displayed
    */
   calculatePage() {
+    this.resetPagination();
     setTimeout(() => {
       this.totalCount = this.mainService.getTotalCharacters();
       this.totalPages = Math.floor(this.totalCount / this.fixSize) + 1;
-    }, 200);
+    }, 300);
+  }
+
+  /**
+   * resets pagination when enter is pressed
+   */
+  resetPagination() {
+    this.currentPage = 1;
+    this.totalPages = 1;
+    this.totalCount = 20;
+    this.fixSize = 20;
   }
 
   /**
