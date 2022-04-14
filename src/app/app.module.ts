@@ -33,7 +33,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     NgbModule,
     FontAwesomeModule,
     MatListModule,
-    MatGridListModule 
+    MatGridListModule ,
+    MatFormFieldModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
