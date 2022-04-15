@@ -6,56 +6,55 @@
   <div class="col">
     <section id="input-section">
       <div>
-        <form class="form" #mortyForm="ngForm">
-          <mat-form-field class="full-width" appearance="fill">
+        <form class="example-form" #mortyForm="ngForm">
+          <ng-container *ngIf="data$ | async as data">
+          <mat-form-field class="example-full-width" appearance="fill">
             <mat-label id="label-input">summon your character</mat-label>
-            <input id="text-input" 
-                #inputElement 
-                type="text" 
-                matInput [formControl]="myControl"
-                (keypress)="onEnter($event)" 
-                [value]="characterSelected" 
-                [(ngModel)]="characterSelected"
-                autocomplete="off"
-              >
+            <input id="text-input" #inputElement name="characterSelected" type="text" matInput ngModel
+              autocomplete="off" (keypress)="onEnter($event, data)">
           </mat-form-field>
+          </ng-container>
         </form>
       </div>
     </section>
-
-    <section id="list-section">
-      <div class="vertical-scroll">
-        <mat-selection-list #characterList [multiple]="false">
-          <mat-list-option *ngFor="let character of characters$ | async" [value]="character.name"
-            (click)="optionSelected(character)" onchange="optionSelected(character)">
-            {{character.name}}
-          </mat-list-option>
-        </mat-selection-list>
+    <ng-container *ngIf="data$ | async as data">
+      <section id="list-section">
+        <div class="vertical-scroll">
+          <mat-selection-list #characterList [multiple]="false">
+            <mat-list-option *ngFor="let character of data.result" [value]="character.name"
+              (click)="optionSelected(character)" onchange="optionSelected(character)">
+              {{character.name}}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </section>
+      <div class="center-title">
+        <button type="button" class="btn btn-warning" color="primary"
+          (click)="currentPage > 1 && previousPage()">&lt;&lt;</button>
+        <b>&nbsp;&nbsp;{{currentPage}}&nbsp;of&nbsp;{{data.info.pages}}&nbsp;</b>
+        <button type="button" class="btn btn-warning"
+          (click)="currentPage < data.info.pages && nextPage()">&gt;&gt;</button>
       </div>
-    </section>
-    <div class="center-title">
-      <button type="button" class="btn btn-warning" color="primary" (click)="previousPage()">&lt;&lt;</button>
-      <b>&nbsp;&nbsp;{{currentPage}}&nbsp;of&nbsp;{{totalPages}}&nbsp;</b>
-      <button type="button" class="btn btn-warning" (click)="nextPage()">&gt;&gt;</button>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="data$ | async as data">
+    <div class="col center-title">
+      <section id="image-section">
+        <div class="image-container">
+          <img class="image-circle" [src]="characterInfo?.image || 'assets/images/rick-morty-portal.png'"
+            alt="Image to be displayed">
+        </div>
+        <div>
+          <h2>{{characterInfo?.name}}</h2>
+          <hr />
+          <p>
+            <b>Identification</b> : {{characterInfo?.id}}<br />
+            <b>Gender</b> : {{characterInfo?.gender}}<br />
+            <b>Specie</b> : {{characterInfo?.species}}<br />
+            <b>Status</b> : {{characterInfo?.status}}<br />
+          </p>
+        </div>
+      </section>
     </div>
-  </div>
-
-  <div class="col center-title">
-    <section id="image-section">
-      <div class="image-container" *ngIf="image">
-        <img class="image-circle" rel="preload" as="image" width="300" height="300" [src]="image"
-          alt="Image to be displayed">
-      </div>
-      <div>
-        <h2>{{characterInfo.name}}</h2>
-        <hr />
-        <p>
-          <b>Identification</b> : {{characterInfo.id}}<br />
-          <b>Gender</b> : {{characterInfo.gender}}<br />
-          <b>Specie</b> : {{characterInfo.species}}<br />
-          <b>Status</b> : {{characterInfo.status}}<br />
-        </p>
-      </div>
-    </section>
-  </div>
+  </ng-container>
 </div>

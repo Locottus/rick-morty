@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Form, FormControl, FormGroup } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 import Character from 'src/app/models/Character';
 import { MainServiceService } from '../../services/main-service.service'
 
@@ -10,59 +11,40 @@ import { MainServiceService } from '../../services/main-service.service'
 })
 export class SearchComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('mortyForm') form!:FormGroup;
-  @ViewChild('inputElement') writeInputElement!: ElementRef;
-  myControl = new FormControl();
-  
-  image: string = 'assets/images/rick-morty-portal.png';
-  characterSelected: string = "";
-  characterInfo: Character = new Character();
+  @ViewChild('mortyForm') form!: FormGroup;
+  @ViewChild('inputElement') inputElementSearch!: ElementRef;
 
-  characters$ = this.mainService.characters$;
-  charactersInfo$ = this.mainService.charactersInfo$;
+
+  myControl = new FormControl();
+  characterInfo: Character | undefined = undefined;
 
   currentPage: number = 1;
   totalPages: number = 1;
   totalCount: number = 20;
   fixSize: number = 20;
 
-  data$ = this.mainService.store$;
+  characterSelected: string = "";
 
+  data$ = this.mainService.store$;
   constructor(
     private mainService: MainServiceService,
-  ) { }
-
-  ngAfterViewInit() {
-    //throw new Error('Method not implemented.');
-    this.writeInputElement.nativeElement.focus();
+  ) {
   }
 
-  ngOnInit() {
-    this.characterInfo.id = 0;
-    this.characterInfo.name = 'Portal';
-    this.characterInfo.gender = 'N/A';
-    this.characterInfo.image = this.image;
-    this.characterInfo.species = 'N/A';
-    this.characterInfo.status = 'N/A';
-    this.mainService.getNames("", 1);
-  
+  async ngOnInit() {
+
   }
 
+  ngAfterViewInit(): void {
+    this.form.valueChanges
+      .pipe(debounceTime(200))
+      .subscribe(({ characterSelected }) => {
+        this.resetPagination();
+        this.mainService.findCharacter(characterSelected);
+        this.characterInfo = undefined;
+      });
 
-
-  /**
-   * when enter is pressed, the selected name will be processed
-   * @param event keyboard event
-   */
-  onEnter(event: any) {
-    if (event.keyCode === 13 || event.key === 'Backspace') {
-      this.mainService.getNames(event.target.value, this.currentPage);
-      this.optionSelected(this.mainService.findCharacter(this.characterSelected));
-      this.calculatePage();
-    }
-    else {
-      this.mainService.getNames(event.target.value, 1);
-    }
+    //this.inputElementSearch.nativeElement.focus();
   }
 
   /**
@@ -70,10 +52,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
    */
   calculatePage() {
     this.resetPagination();
-    setTimeout(() => {
-      this.totalCount = this.mainService.getTotalCharacters();
-      this.totalPages = Math.floor(this.totalCount / this.fixSize) + 1;
-    }, 300);
   }
 
   /**
@@ -81,43 +59,45 @@ export class SearchComponent implements OnInit, AfterViewInit {
    */
   resetPagination() {
     this.currentPage = 1;
-    this.totalPages = 1;
-    this.totalCount = 20;
-    this.fixSize = 20;
+    this.mainService.changePage(this.currentPage);
   }
 
   /**
    * moves a page before
    */
   previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.mainService.getNames(this.characterSelected, this.currentPage);
-    }
+    this.currentPage--;
+    this.mainService.changePage(this.currentPage);
   }
 
   /**
    * moves to next page
    */
   nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.mainService.getNames(this.characterSelected, this.currentPage);
-    }
+    this.currentPage++;
+    this.mainService.changePage(this.currentPage);
   }
 
   /**
    * loads the data of the selected character
    * @param event keyboard event
    */
-  optionSelected(event: Character) {
-    this.characterInfo.id = event.id;
-    this.characterInfo.name = event.name;
-    this.characterInfo.gender = event.gender;
-    this.characterInfo.image = event.image;
-    this.characterInfo.species = event.species;
-    this.characterInfo.status = event.status;
-    this.image = event.image;
+  optionSelected(character: Character) {
+    this.characterInfo = character;
+  }
+
+  /**
+ * when enter is pressed, the selected name will be processed
+ * @param event keyboard event
+ */
+  async onEnter(event: any, data: any) {
+    if (event.keyCode === 13) {
+      let val = this.inputElementSearch.nativeElement.value;
+      if (data.result) {
+        if (val.toString().toLocaleLowerCase() === data.result[0].name.toString().toLocaleLowerCase())
+          this.optionSelected(data.result[0]);
+      }
+    }
   }
 
 }
