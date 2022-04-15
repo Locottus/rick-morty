@@ -6,11 +6,18 @@
   <div class="col">
     <section id="input-section">
       <div>
-        <form class="example-form">
-          <mat-form-field class="example-full-width" appearance="fill">
+        <form class="form" #mortyForm="ngForm">
+          <mat-form-field class="full-width" appearance="fill">
             <mat-label id="label-input">summon your character</mat-label>
-            <input id="text-input" type="text" matInput [formControl]="myControl" (keypress)="onEnter($event)"
-              [value]="characterSelected" [(ngModel)]="characterSelected" autocomplete="off">
+            <input id="text-input" 
+                #inputElement 
+                type="text" 
+                matInput [formControl]="myControl"
+                (keypress)="onEnter($event)" 
+                [value]="characterSelected" 
+                [(ngModel)]="characterSelected"
+                autocomplete="off"
+              >
           </mat-form-field>
         </form>
       </div>
@@ -36,7 +43,8 @@
   <div class="col center-title">
     <section id="image-section">
       <div class="image-container" *ngIf="image">
-        <img class="image-circle" rel="preload" as="image" width="300" height="300" [src]="image" alt="Image to be displayed">
+        <img class="image-circle" rel="preload" as="image" width="300" height="300" [src]="image"
+          alt="Image to be displayed">
       </div>
       <div>
         <h2>{{characterInfo.name}}</h2>

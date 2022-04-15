@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Form, FormControl, FormGroup } from '@angular/forms';
 import Character from 'src/app/models/Character';
 import { MainServiceService } from '../../services/main-service.service'
 
@@ -8,9 +8,12 @@ import { MainServiceService } from '../../services/main-service.service'
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('mortyForm') form!:FormGroup;
+  @ViewChild('inputElement') writeInputElement!: ElementRef;
   myControl = new FormControl();
-  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+  
   image: string = 'assets/images/rick-morty-portal.png';
   characterSelected: string = "";
   characterInfo: Character = new Character();
@@ -23,10 +26,16 @@ export class SearchComponent implements OnInit {
   totalCount: number = 20;
   fixSize: number = 20;
 
+  data$ = this.mainService.store$;
 
   constructor(
     private mainService: MainServiceService,
   ) { }
+
+  ngAfterViewInit() {
+    //throw new Error('Method not implemented.');
+    this.writeInputElement.nativeElement.focus();
+  }
 
   ngOnInit() {
     this.characterInfo.id = 0;
@@ -35,9 +44,11 @@ export class SearchComponent implements OnInit {
     this.characterInfo.image = this.image;
     this.characterInfo.species = 'N/A';
     this.characterInfo.status = 'N/A';
-
-    this.mainService.getNames(this.characterSelected, this.currentPage);
+    this.mainService.getNames("", 1);
+  
   }
+
+
 
   /**
    * when enter is pressed, the selected name will be processed
