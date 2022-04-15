@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef,  ViewChild } from '@angular/core';
 import { Form, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import Character from 'src/app/models/Character';
@@ -9,7 +9,7 @@ import { MainServiceService } from '../../services/main-service.service'
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit, AfterViewInit {
+export class SearchComponent implements  AfterViewInit {
 
   @ViewChild('mortyForm') form!: FormGroup;
   @ViewChild('inputElement') inputElementSearch!: ElementRef;
@@ -26,14 +26,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
   characterSelected: string = "";
 
   data$ = this.mainService.store$;
+  
   constructor(
     private mainService: MainServiceService,
   ) {
   }
 
-  async ngOnInit() {
-
-  }
 
   ngAfterViewInit(): void {
     this.form.valueChanges
@@ -43,8 +41,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
         this.mainService.findCharacter(characterSelected);
         this.characterInfo = undefined;
       });
-
-    //this.inputElementSearch.nativeElement.focus();
   }
 
   /**
@@ -80,7 +76,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   /**
    * loads the data of the selected character
-   * @param event keyboard event
+   * @param character keyboard event
    */
   optionSelected(character: Character) {
     this.characterInfo = character;

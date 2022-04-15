@@ -6,9 +6,9 @@
   <div class="col">
     <section id="input-section">
       <div>
-        <form class="example-form" #mortyForm="ngForm">
+        <form class="form" #mortyForm="ngForm">
           <ng-container *ngIf="data$ | async as data">
-          <mat-form-field class="example-full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="fill">
             <mat-label id="label-input">summon your character</mat-label>
             <input id="text-input" #inputElement name="characterSelected" type="text" matInput ngModel
               autocomplete="off" (keypress)="onEnter($event, data)">
