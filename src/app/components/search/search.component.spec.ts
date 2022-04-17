@@ -13,7 +13,6 @@ describe('SearchComponent', () => {
       providers: [
         MainServiceService,
         Apollo,
-        
       ]
     })
     .compileComponents();

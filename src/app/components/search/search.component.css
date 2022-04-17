@@ -4,7 +4,7 @@
   width: 100%;
 }
 
-h1{
+h1 {
   font-family: 'Creepster', cursive;
 }
 
@@ -24,12 +24,12 @@ h1{
   padding: 10px;
 }
 
-.vertical-scroll{
+.vertical-scroll {
   width: auto;
-  height: 400px; 
+  height: 400px;
   overflow-y: scroll;
 }
 
-.center-title{
+.center-title {
   text-align: center;
 }

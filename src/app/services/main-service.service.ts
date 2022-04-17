@@ -53,15 +53,15 @@ export class MainServiceService {
     private apollo: Apollo,
   ) { }
 
-  
+
   /**
    * changes the page number
    * @param page page to be changed
    */
-   changePage(page: number) {
+  changePage(page: number) {
     this.pagination$.next(page);
   }
-  
+
   /**
    * finds the first character in the list of characters
    * @param name name of the first iteration to find

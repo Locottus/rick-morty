@@ -8,11 +8,18 @@
       <div>
         <form class="form" #mortyForm="ngForm">
           <ng-container *ngIf="data$ | async as data">
-          <mat-form-field class="full-width" appearance="fill">
-            <mat-label id="label-input">summon your character</mat-label>
-            <input id="text-input" #inputElement name="characterSelected" type="text" matInput ngModel
-              autocomplete="off" (keypress)="onEnter($event, data)">
-          </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>summon your character</mat-label>
+              <input id="text-input" 
+                #inputElement 
+                name="characterSelected" 
+                type="text" 
+                matInput 
+                ngModel
+                autocomplete="off" 
+                (keypress)="onEnter($event, data)"
+              >
+            </mat-form-field>
           </ng-container>
         </form>
       </div>
@@ -21,19 +28,31 @@
       <section id="list-section">
         <div class="vertical-scroll">
           <mat-selection-list #characterList [multiple]="false">
-            <mat-list-option *ngFor="let character of data.result" [value]="character.name"
-              (click)="optionSelected(character)" onchange="optionSelected(character)">
-              {{character.name}}
+            <mat-list-option *ngFor="let character of data.result" 
+              [value]="character.name"
+              (click)="optionSelected(character)" 
+              onchange="optionSelected(character)"
+            >
+            {{character.name}}
             </mat-list-option>
           </mat-selection-list>
         </div>
       </section>
       <div class="center-title">
-        <button type="button" class="btn btn-warning" color="primary"
-          (click)="currentPage > 1 && previousPage()">&lt;&lt;</button>
-        <b>&nbsp;&nbsp;{{currentPage}}&nbsp;of&nbsp;{{data.info.pages}}&nbsp;</b>
-        <button type="button" class="btn btn-warning"
-          (click)="currentPage < data.info.pages && nextPage()">&gt;&gt;</button>
+        <p>
+          <button type="button" 
+            class="btn btn-warning" 
+            color="primary"
+            (click)="currentPage > 1 && previousPage()"
+          >&lt;&lt;</button>
+          <b> 
+            {{currentPage}} of {{data.info.pages}} 
+          </b>
+          <button type="button" 
+          class="btn btn-warning"
+            (click)="currentPage < data.info.pages && nextPage()"
+          >&gt;&gt;</button>
+        </p>
       </div>
     </ng-container>
   </div>

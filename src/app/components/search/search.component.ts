@@ -3,7 +3,6 @@ import { Form, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import Character from 'src/app/models/Character';
 import { MainServiceService } from '../../services/main-service.service'
-
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -14,8 +13,6 @@ export class SearchComponent implements  AfterViewInit {
   @ViewChild('mortyForm') form!: FormGroup;
   @ViewChild('inputElement') inputElementSearch!: ElementRef;
 
-
-  myControl = new FormControl();
   characterInfo: Character | undefined = undefined;
 
   currentPage: number = 1;
@@ -41,13 +38,6 @@ export class SearchComponent implements  AfterViewInit {
         this.mainService.findCharacter(characterSelected);
         this.characterInfo = undefined;
       });
-  }
-
-  /**
-   * calculates the pages to be displayed
-   */
-  calculatePage() {
-    this.resetPagination();
   }
 
   /**
