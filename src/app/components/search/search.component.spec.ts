@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MainServiceService } from 'src/app/services/main-service.service';
 import { SearchComponent } from './search.component';
-import { Apollo, gql } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -9,22 +9,26 @@ describe('SearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SearchComponent ],
+      declarations: [SearchComponent],
       providers: [
         MainServiceService,
         Apollo,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SearchComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    setTimeout(() => {
+      fixture = TestBed.createComponent(SearchComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    }, 500);
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    setTimeout(() => {
+      expect(component).toBeTruthy();
+    }, 500);
   });
 });

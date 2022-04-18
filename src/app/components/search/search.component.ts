@@ -16,10 +16,7 @@ export class SearchComponent implements  AfterViewInit {
   characterInfo: Character | undefined = undefined;
 
   currentPage: number = 1;
-  totalPages: number = 1;
-  totalCount: number = 20;
-  fixSize: number = 20;
-
+  
   characterSelected: string = "";
 
   data$ = this.mainService.store$;

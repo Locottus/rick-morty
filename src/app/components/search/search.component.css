@@ -13,8 +13,8 @@ h1 {
 }
 
 .image-circle {
-  width: auto;
-  height: auto;
+  width: 350px;
+  height: 350px;
   margin: 10px;
   border-radius: 100%;
 }

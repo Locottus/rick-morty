@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 
 @Injectable({
@@ -9,9 +9,17 @@ import { BehaviorSubject, combineLatest, of } from 'rxjs';
 
 export class MainServiceService {
 
+  /**
+   * initialized observables initialized 
+   * for character = '' and page number = 1
+   */
   private inputSearch$ = new BehaviorSubject<string>('');
   private pagination$ = new BehaviorSubject<number>(1);
 
+  /**
+   * the main observable that combines the two parts of the project,
+   * the pagination and the character search.
+   */
   store$ = combineLatest([this.inputSearch$, this.pagination$]).pipe(switchMap(([name, page]) => {
     const query = gql`
     query {
