@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { catchError, map, switchMap, take } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 
 @Injectable({
@@ -41,7 +41,6 @@ export class MainServiceService {
     return this.apollo.watchQuery<any>({
       query: query
     }).valueChanges.pipe(
-      take(1),
       map(({ data }) => ({
         info: {
           pages: Math.floor(data.characters.info.count / 20) + 1,

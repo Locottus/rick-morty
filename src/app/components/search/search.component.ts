@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef,  ViewChild } from '@angular/core';
-import { Form, FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import Character from 'src/app/models/Character';
 import { MainServiceService } from '../../services/main-service.service'
@@ -17,8 +17,6 @@ export class SearchComponent implements  AfterViewInit {
 
   currentPage: number = 1;
   
-  characterSelected: string = "";
-
   data$ = this.mainService.store$;
   
   constructor(
