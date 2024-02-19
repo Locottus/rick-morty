@@ -116,6 +116,7 @@
   },
   "defaultProject": "rick-morty",
   "cli": {
+    "analytics": false,
     "defaultCollection": "@angular-eslint/schematics"
   }
 }

@@ -1,79 +1,15 @@
 <div class="center-title">
-  <h1>Rick and Morty Search Engine</h1>
-</div>
+  <h1>Chat GPT Demo App</h1>
 
-<div class="row">
-  <div class="col">
-    <section id="input-section">
-      <div>
-        <form class="form" #mortyForm="ngForm">
-          <ng-container *ngIf="data$ | async as data">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>summon your character</mat-label>
-              <input id="text-input" 
-                #inputElement 
-                name="characterSelected" 
-                type="text" 
-                matInput 
-                ngModel
-                autocomplete="off" 
-                (keypress)="onEnter($event, data)"
-              >
-            </mat-form-field>
-          </ng-container>
-        </form>
-      </div>
-    </section>
-    <ng-container *ngIf="data$ | async as data">
-      <section id="list-section">
-        <div class="vertical-scroll">
-          <mat-selection-list #characterList [multiple]="false">
-            <mat-list-option *ngFor="let character of data.result" 
-              [value]="character.name"
-              (click)="optionSelected(character)" 
-              onchange="optionSelected(character)"
-            >
-            {{character.name}}
-            </mat-list-option>
-          </mat-selection-list>
-        </div>
-      </section>
-      <div class="center-title">
-        <p>
-          <button type="button" 
-            class="btn btn-warning" 
-            color="primary"
-            (click)="currentPage > 1 && previousPage()"
-          >&lt;&lt;</button>
-          <b> 
-            {{currentPage}} of {{data.info.pages}} 
-          </b>
-          <button type="button" 
-          class="btn btn-warning"
-            (click)="currentPage < data.info.pages && nextPage()"
-          >&gt;&gt;</button>
-        </p>
-      </div>
-    </ng-container>
-  </div>
-  <ng-container *ngIf="data$ | async as data">
-    <div class="col center-title">
-      <section id="image-section">
-        <div class="image-container">
-          <img class="image-circle" [src]="characterInfo?.image || 'assets/images/giphy.gif'"
-            alt="Image to be displayed">
-        </div>
-        <div>
-          <h2>{{characterInfo?.name}}</h2>
-          <hr />
-          <p>
-            <b>Identification</b> : {{characterInfo?.id}}<br />
-            <b>Gender</b> : {{characterInfo?.gender}}<br />
-            <b>Specie</b> : {{characterInfo?.species}}<br />
-            <b>Status</b> : {{characterInfo?.status}}<br />
-          </p>
-        </div>
-      </section>
-    </div>
-  </ng-container>
+  <h1>Data to send</h1>
+  <p>{{dataSet | json}}</p>
+
+  <input type="text" [(ngModel)]="question" style="width: 50%;" />
+  &nbsp;
+  <button class="btn btn-primary" type="button" (click)="consultaChat()">Send Data</button>
+  <br/>
+  <br/>
+
+  <p><strong> {{answer | json}}</strong></p>
+
 </div>

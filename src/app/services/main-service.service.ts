@@ -1,80 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, of, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class MainServiceService {
 
-  /**
-   * initialized observables initialized 
-   * for character = '' and page number = 1
-   */
-  private inputSearch$ = new BehaviorSubject<string>('');
-  private pagination$ = new BehaviorSubject<number>(1);
-
-  /**
-   * the main observable that combines the two parts of the project,
-   * the pagination and the character search.
-   */
-  store$ = combineLatest([this.inputSearch$, this.pagination$]).pipe(switchMap(([name, page]) => {
-    const query = gql`
-    query {
-      characters(page: ${page}, filter: { name: "${name}" }) {
-        info {
-          count
-        }
-        results {
-          id
-          name      
-          image
-          status
-          gender
-          species
-        }
-      }
-    }
-    `;
-    return this.apollo.watchQuery<any>({
-      query: query
-    }).valueChanges.pipe(
-      map(({ data }) => ({
-        info: {
-          pages: Math.floor(data.characters.info.count / 20) + 1,
-        },
-        result: data.characters.results
-      })),
-      catchError(() => of({
-        info: {
-          pages: 1,
-        },
-        result: []
-      }))
-    );
-  }));
+  url:string = "http://localhost:5000/postendpoint";
 
   constructor(
-    private apollo: Apollo,
-  ) { }
+    private httpClient: HttpClient
+
+  ) {}
 
 
-  /**
-   * changes the page number
-   * @param page page to be changed
-   */
-  changePage(page: number) {
-    this.pagination$.next(page);
+  
+  enviaDataChatGPT(chatData: any) {
+    return this.httpClient.post(`${this.url}`, chatData).pipe(
+      catchError((err) => {
+        console.log('error caught in service')
+        console.error(err);
+        //Handle the error here
+        alert(err.message);
+        return throwError(() => err);
+      })
+    )
+    
   }
 
-  /**
-   * finds the first character in the list of characters
-   * @param name name of the first iteration to find
-   */
-  findCharacter(name: string) {
-    this.inputSearch$.next(name);
-  }
 
 }

@@ -1,84 +1,45 @@
-import { AfterViewInit, Component, ElementRef,  ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import Character from 'src/app/models/Character';
-import { MainServiceService } from '../../services/main-service.service'
+import { MainServiceService } from '../../services/main-service.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
 })
-export class SearchComponent implements  AfterViewInit {
+export class SearchComponent implements OnInit {
+  dataSet: any = [
+    77, 80, 82, 66, 64, 30, 77, 68, 77, 37, 71, 66, 12, 56, 19, 33, 94, 94, 74,
+    72, 99, 67, 29, 33, 18, 36, 48, 98, 26, 15, 68, 5, 2, 88, 24, 44, 39, 13,
+    94, 7, 73, 3, 72, 28, 15, 18, 8, 57, 6, 7, 11, 52, 86, 37, 55, 45, 8, 1, 0,
+    14, 76, 97, 85, 88, 49, 32, 18, 36, 63, 10, 84, 65, 23, 43, 63, 77, 38, 95,
+    67, 7, 68, 44, 67
+  ];
 
-  @ViewChild('mortyForm') form!: FormGroup;
-  @ViewChild('inputElement') inputElementSearch!: ElementRef;
-
-  characterInfo: Character | undefined = undefined;
-
-  currentPage: number = 1;
+  question: string = '';
+  answer:any ;
   
-  data$ = this.mainService.store$;
-  
-  constructor(
-    private mainService: MainServiceService,
-  ) {
+  constructor(private mainService: MainServiceService) {}
+
+  ngOnInit() {
+
   }
 
-
-  ngAfterViewInit(): void {
-    this.form.valueChanges
-      .pipe(debounceTime(200))
-      .subscribe(({ characterSelected }) => {
-        this.resetPagination();
-        this.mainService.findCharacter(characterSelected);
-        this.characterInfo = undefined;
-      });
-  }
-
-  /**
-   * resets pagination when enter is pressed
-   */
-  resetPagination() {
-    this.currentPage = 1;
-    this.mainService.changePage(this.currentPage);
-  }
-
-  /**
-   * moves a page before
-   */
-  previousPage() {
-    this.currentPage--;
-    this.mainService.changePage(this.currentPage);
-  }
-
-  /**
-   * moves to next page
-   */
-  nextPage() {
-    this.currentPage++;
-    this.mainService.changePage(this.currentPage);
-  }
-
-  /**
-   * loads the data of the selected character
-   * @param character keyboard event
-   */
-  optionSelected(character: Character) {
-    this.characterInfo = character;
-  }
-
-  /**
- * when enter is pressed, the selected name will be processed
- * @param event keyboard event
- */
-  async onEnter(event: any, data: any) {
-    if (event.keyCode === 13) {
-      let val = this.inputElementSearch.nativeElement.value;
-      if (data.result) {
-        if (val.toString().toLocaleLowerCase() === data.result[0].name.toString().toLocaleLowerCase())
-          this.optionSelected(data.result[0]);
-      }
+  consultaChat(){
+    let objeto = {
+      data: this.dataSet,
+      question: this.question
     }
+    this.mainService.enviaDataChatGPT(objeto).subscribe(data =>{
+      this.answer = data;
+    })
   }
 
 }
